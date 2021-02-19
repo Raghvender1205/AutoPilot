@@ -11,9 +11,9 @@ import pickle
 
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-from tensorflow.python.training.tracking.util import Checkpoint
 
-def model(image_x, image_y):
+
+def create_model(image_x, image_y):
     model = Sequential([
         Lambda(lambda x: x / 127.5 - 1, input_shape=(image_x, image_y, 1)),
         Conv2D(32, (3, 3), padding='same'),
@@ -45,7 +45,7 @@ def model(image_x, image_y):
         Dense(1),
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(), loss=tf.keras.losses.mse())
+    model.compile(optimizer=tf.keras.optimizers.Adam(), loss='mse')
     filepath = 'AutoPilot_1.h5'
     checkpoint = ModelCheckpoint(filepath, verbose=1, save_best_only=True)
     callbacks_list = [checkpoint]
@@ -67,7 +67,7 @@ def main():
 
     train_x = train_x.reshape(train_x.shape[0], 100, 100, 1)
     test_x = test_x.reshape(test_x.shape[0], 100, 100, 1)
-    model, callbacks_list = model(100, 100)
+    model, callbacks_list = create_model(100, 100)
     model.fit(train_x, train_y, validation_data=(test_x, test_y), epochs=10, batch_size=32, callbacks=callbacks_list)
 
     print(model.summary())
