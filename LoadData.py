@@ -27,7 +27,7 @@ def return_data():
             y.append(float(angle) * np.pi / 180)
 
     for i in range(len(X)):
-        img = i.imread(X[i])
+        img = plt.imread(X[i])
         features.append(preprocess(img))
     
     features = np.array(features).astype('float32')
