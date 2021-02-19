@@ -38,4 +38,6 @@ def return_data():
     with open('labels', 'wb') as f:
         pickle.dump(labels, f, protocol=4)
 
-return_data()
+if __name__ == "__main__":
+    print('Starting')
+    return_data()
